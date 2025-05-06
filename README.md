@@ -5,13 +5,10 @@ A short guide on using Postman, Azure Pipeline, and Shell Script to automate int
 1) Planned and designed test scripts
     * Prepared the golden answer of each API. (status code, response context)
     * Developed test scripts on Postman to validate whether the response status code and content matched the corresponding golden answer.
-    * Placed test scripts, golden answers and other related files onto the staging server.
+    * Placed test scripts, golden answers and other related files to the staging server.
 
-[test script sample]
 ![image](https://github.com/twqunnieliang/shiba-integration-testing/blob/main/image/test-coverage.png)
+_# test script sample_
 
 2) Staging Server & Azure Pipeline
     * Ensured the stable connection between the staging server and Azure Pipeline agent.
-
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
