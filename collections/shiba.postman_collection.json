@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "32d68915-720b-44eb-94e2-833ef2a3e075",
+		"name": "shiba",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17609978"
+	},
+	"item": [
+		{
+			"name": "create project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('0-1. Create Project', () => {\r",
+							"\r",
+							"    pm.expect(pm.response.code).to.eql(200);\r",
+							"    const response_json = pm.response.json();\r",
+							"\r",
+							"    pm.expect(response_json).to.eql({'status':'success'});\r",
+							"    console.log(response_json);\r",
+							"        \r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"project_short_name\": \"11_1111\",\r\n    \"subproject\": [\r\n        {\r\n            \"subproject_number\": \"11_1111A\",\r\n            \"subproject_type\": [1],\r\n            \"description\": \"test\",\r\n            \"create_sheet\": true,\r\n            \"corporation_number\":[\"1234\"],\r\n            \"enabled\":true\r\n        },\r\n        {\r\n            \"subproject_number\": \"11_1111A01\",\r\n            \"subproject_type\": [2],\r\n            \"description\": \"test\",\r\n            \"create_sheet\": true,\r\n            \"corporation_number\":[\"1234\"], \r\n            \"enabled\":true\r\n        }\r\n    ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{staging_server}}:{{shiba_backend_port}}/provision/sub_project/create",
+					"protocol": "http",
+					"host": [
+						"{{staging_server}}"
+					],
+					"port": "{{shiba_backend_port}}",
+					"path": [
+						"provision",
+						"sub_project",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch enabled project",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('0-2. Check whether the new Project is successfully created', () => {\r",
+							"\r",
+							"    pm.expect(pm.response.code).to.eql(200);\r",
+							"    const response_json = pm.response.json();\r",
+							"\r",
+							"    pm.expect(pm.iterationData.get(\"enabled_project_length_of_golden_answer\")).to.eql(response_json.length);\r",
+							"    console.log(\"gold answer: \" + pm.iterationData.get(\"enabled_project_length_of_golden_answer\") + \" , response json: \" + response_json.length);\r",
+							"\r",
+							"    pm.expect(pm.iterationData.get(\"enabled_project_golden_answer\")).to.eql(response_json);\r",
+							"    console.log(response_json);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{staging_server}}:{{shiba_db_api_port}}/sub_contract/get_all_enabled",
+					"protocol": "http",
+					"host": [
+						"{{staging_server}}"
+					],
+					"port": "{{shiba_db_api_port}}",
+					"path": [
+						"sub_contract",
+						"get_all_enabled"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch project scheme",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('0-3. Check project scheme', () => {\r",
+							"\r",
+							"    pm.expect(pm.response.code).to.eql(200);\r",
+							"    const response_json = pm.response.json();\r",
+							"    const golden_answer_list = pm.iterationData.get(\"project_scheme_golden_answer\");\r",
+							"\r",
+							"    const length_of_golden_answer = pm.iterationData.get(\"project_scheme_length_of_golden_answer\");\r",
+							"    const length_of_response_json = response_json.length;\r",
+							"\r",
+							"    pm.expect(length_of_golden_answer).to.eql(length_of_response_json);\r",
+							"    console.log(\"gold answer: \"+ length_of_golden_answer +\" , response json: \"+ length_of_response_json);\r",
+							"\r",
+							"    \r",
+							"    const check_list = [];\r",
+							"\r",
+							"    golden_answer_loop: for(let i = 0; i < golden_answer_list.length; i++){\r",
+							"    response_loop: for(let j = 0; j < response_json.length; j++){\r",
+							"            if(response_json[j].subproject_number == golden_answer_list[i].subproject_number &&\r",
+							"                response_json[j].description == golden_answer_list[i].description &&\r",
+							"                response_json[j].create_sheet == golden_answer_list[i].create_sheet &&\r",
+							"                response_json[j].enabled == golden_answer_list[i].enabled &&\r",
+							"                JSON.stringify(response_json[j].corporation_number) == JSON.stringify(golden_answer_list[i].corporation_number) &&\r",
+							"                JSON.stringify(response_json[j].subproject_type) == JSON.stringify(golden_answer_list[i].subproject_type)){\r",
+							"\r",
+							"                check_list.push(response_json[j]);\r",
+							"                continue golden_answer_loop;\r",
+							"            }else{ continue response_loop;}\r",
+							"        }\r",
+							"    }\r",
+							"\r",
+							"    pm.expect(length_of_golden_answer).to.eql(check_list.length);\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{staging_server}}:{{shiba_db_api_port}}/project_scheme/fetch_details?project=11_1111",
+					"protocol": "http",
+					"host": [
+						"{{staging_server}}"
+					],
+					"port": "{{shiba_db_api_port}}",
+					"path": [
+						"project_scheme",
+						"fetch_details"
+					],
+					"query": [
+						{
+							"key": "project",
+							"value": "11_1111"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

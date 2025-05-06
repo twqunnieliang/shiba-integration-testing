@@ -1,0 +1,37 @@
+[
+    {
+        "enabled_project_length_of_golden_answer": 1,
+        "enabled_project_golden_answer":
+        [
+            "11_1111"
+        ],
+        "project_scheme_length_of_golden_answer": 13,
+        "project_scheme_golden_answer":
+        [
+          {
+            "corporation_number": [
+              "1234"
+            ],
+            "subproject_number": "11_1111A",
+            "description": "test",
+            "create_sheet": true,
+            "subproject_type": [
+              1
+            ],
+            "enabled": true
+          },
+          {
+            "corporation_number": [
+              "1234"
+            ],
+            "subproject_number": "11_1111A01",
+            "description": "test",
+            "create_sheet": true,
+            "subproject_type": [
+              2
+            ],
+            "enabled": true
+          }
+        ]
+    }
+]
