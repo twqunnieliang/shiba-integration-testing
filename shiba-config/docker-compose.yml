@@ -1,0 +1,34 @@
+
+version: "3.9"
+services:
+  shiba_backend_automation_test:
+    image: shiba/backend:20231212.03
+    container_name: shiba_backend_automation_test
+    networks:
+      - shiba_network
+      - it_db_api_network
+    env_file:
+      - /Users/qunnieliang/workspace/github-repo/shiba-integration-testing/shiba-config/.shiba_backend.env
+    ports:
+      - 5002:5000
+  
+
+  shiba_dbapi_automation_test:
+    image: shiba/dbapi:20231212.03
+    container_name: icost_dbapi_automation_test
+    networks:
+      - shiba_network
+      - shiba_postgresql_automation_test_network
+    env_file:
+      - /Users/qunnieliang/workspace/github-repo/shiba-integration-testing/shiba-config/.shiba_dbapi.env
+    ports:
+      - 5004:8000
+
+
+networks:
+  shiba_postgresql_automation_test_network:
+    external: true
+  shiba_network:
+    name: shiba_network
+  it_db_api_network:
+    external: true
