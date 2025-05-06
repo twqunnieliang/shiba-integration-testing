@@ -1,0 +1,19 @@
+
+version: "3.9"
+services:
+  shiba_postgresql_automation_test:
+    image: postgres:14.10
+    container_name: shiba_postgresql_automation_test
+    networks:
+      - shiba_postgresql_automation_test_network
+    env_file:
+      - /Users/qunnieliang/workspace/github-repo/shiba-integration-testing/postgresql_config/.db.env
+    volumes:
+      - /Users/qunnieliang/workspace/github-repo/shiba-integration-testing/postgresql_config/:/docker-entrypoint-initdb.d
+    ports:
+      - 15432:5432
+
+
+networks:
+  shiba_postgresql_automation_test_network:
+    name: shiba_postgresql_automation_test_network
