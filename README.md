@@ -16,4 +16,3 @@ _[1] test coverage sample_
     * Set up tasks on Azure Pipeline to meet test coverage.
 
 ![image](https://github.com/twqunnieliang/shiba-integration-testing/blob/main/image/automated%20integration%20test%20sequence%20diagram.png)
-_[2]Sequence diagram_
